@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Template extends Component {
+class Template extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            data: []
+            data: [],
+            isHeart: false,
         }
     }
 
@@ -21,7 +23,23 @@ export default class Template extends Component {
         })
     }
 
+    clickHeart = (e, id) => {
+        e.preventDefault();
+        const { isHeart } = this.state;
+        // if (id)
+        if (isHeart) {
+            this.props.clickHeart(-1);
+        } else {
+            this.props.clickHeart(1);
+        }
+        console.log(e);
+        this.setState({
+            isHeart: !isHeart
+        })
+    }
+
     renderItem = () => {
+        const { heart, comment, view } = this.props;
         return this.state.data.map((item) => {
             return (
                 <div className="col-lg-4 col-md-6" key={item.id}>
@@ -46,9 +64,18 @@ export default class Template extends Component {
                                 </h4>
 
                                 <ul className="post-footer">
-                                    <li><a href="#"><i className="ion-heart"></i>57</a></li>
-                                    <li><a href="#"><i className="ion-chatbubble"></i>6</a></li>
-                                    <li><a href="#"><i className="ion-eye"></i>138</a></li>
+                                    <li>
+                                        <a href="#" className={heart === 1 ? 'text-danger' : ''} onClick={(e) => this.clickHeart(e, item.id)}>
+                                            <i className="ion-heart"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i className="ion-chatbubble"></i>{comment !== 0 ? comment : null}</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i className="ion-eye"></i>{view !== 0 ? view : null}</a>
+                                    </li>
                                 </ul>
 
                             </div>
@@ -76,3 +103,22 @@ export default class Template extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        heart: state.heart,
+        view: state.view,
+        comment: state.comment
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        clickHeart: (heart) => dispatch({
+            payload: heart,
+            type: 'UPDATE_HEART'
+        })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Template);
