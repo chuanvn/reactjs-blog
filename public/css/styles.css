@@ -451,9 +451,6 @@ header .src-area .src-btn {
   max-height: 200px;
   overflow: hidden;
 }
-.main-post {
-  border-right: 1px solid #ddd;
-}
 
 .main-post .blog-post-inner {
   padding-right: 30px;

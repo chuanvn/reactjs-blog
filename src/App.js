@@ -5,6 +5,8 @@ import axios from 'axios';
 import Template from './components/Template';
 import SinglePost from './components/SinglePost';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import store from './redux-setup/store';
+import { Provider } from 'react-redux';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,26 +40,16 @@ class App extends React.Component {
   }
 
   render() {
-    const { posts } = this.state;
     return (
-      <BrowserRouter>
-        {/* <ul>
-          {posts && posts.length > 0 &&
-            posts.map((item) => {
-              return (
-                <li key={item.id}>
-                  <a href="#">{item.title}</a>
-                </li>
-              )
-            })
-          }
-        </ul> */}
-        <Switch>
-          <Route path='/home' component={Template} />
-          <Route path='/posts' component={SinglePost} />
-          <Route path='*' render={() => <Redirect to='/home'/>} />
-        </Switch>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Switch>
+            <Route path='/home' component={Template} />
+            <Route path='/posts' component={SinglePost} />
+            <Route path='*' render={() => <Redirect to='/home' />} />
+          </Switch>
+        </BrowserRouter>
+      </Provider>
     )
   }
 }

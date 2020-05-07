@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
+import Comments from './Comments';
 
 export default class SinglePost extends Component {
     render() {
@@ -8,15 +9,10 @@ export default class SinglePost extends Component {
         return (
             <div className="post-area section">
                 <div className="container pb-5">
-
                     <div className="row">
-
                         <div className="col-12 no-right-padding">
-
                             <div className="main-post">
-
                                 <div className="blog-post-inner">
-
                                     <div className="post-info">
 
                                         <div className="left-area">
@@ -77,63 +73,7 @@ export default class SinglePost extends Component {
                         </div>
                     </div>
                 </div>
-
-                <div className="container">
-                    <h4><strong>COMMENTS(12)</strong></h4>
-
-                    <div className="commnets-area">
-
-                        <div className="comment">
-
-                            <div className="post-info">
-
-                                <div className="left-area">
-                                    <a className="avatar" href="#">
-                                        <img src="images/800x800.png" alt="Profile Image" /></a>
-                                </div>
-
-                                <div className="middle-area">
-                                    <a className="name" href="#"><strong>Katy Liu</strong></a>
-                                    <h6 className="date">on Sep 29, 2017 at 9:48 am</h6>
-                                </div>
-
-                                <div className="right-area">
-                                    <h5 className="reply-btn" ><a href="#"><strong>REPLY</strong></a></h5>
-                                </div>
-
-                            </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur Ut enim ad minim veniam</p>
-
-                        </div>
-
-                        <div className="comment">
-                            <h5 className="reply-for">Reply for <a href="#"><strong>Katy Lui</strong></a></h5>
-
-                            <div className="post-info">
-
-                                <div className="left-area">
-                                    <a className="avatar" href="#"><img src="images/800x800.png" alt="Profile Image" /></a>
-                                </div>
-
-                                <div className="middle-area">
-                                    <a className="name" href="#"><b>Katy Liu</b></a>
-                                    <h6 className="date">on Sep 29, 2017 at 9:48 am</h6>
-                                </div>
-
-                                <div className="right-area">
-                                    <h5 className="reply-btn" ><a href="#"><b>REPLY</b></a></h5>
-                                </div>
-
-                            </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur Ut enim ad minim veniam</p>
-
-                        </div>
-                    </div>
-                </div>
+                <Comments/>
             </div>
         )
     }
