@@ -4,12 +4,28 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class SinglePost extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            item: {}
+        }
+    }
 
     componentDidMount = () => {
+        const { match, posts } = this.props;
+        let post = posts.find(item => {
+            if(item.id === parseInt(match.params.id)) {
+                return item;
+            }
+
+            return false;
+        });
+        this.setState({item: post});
     }
 
     render() {
-        const { match, postItem } = this.props;
+        const { item } = this.state;
         return (
             <div className="post-area section">
                 <div className="container pb-5">
@@ -34,10 +50,10 @@ class SinglePost extends Component {
 
                                     <div>
                                         <h3 className="title">
-                                            <Link to=""><strong>{postItem.title}</strong></Link>
+                                            <Link to=""><strong>{item ? item.title : ''}</strong></Link>
                                         </h3>
 
-                                        <p className="para">{postItem.body}</p>
+                                        <p className="para">{item ? item.body : ''}</p>
 
                                         {/* <div className="post-image"><img src="/images/500x333.png" alt="Blog" /></div> */}
 
@@ -71,13 +87,12 @@ class SinglePost extends Component {
                 <Comments />
             </div>
         )
-    }
+    } 
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.postItem);
     return {
-        postItem: state.postItem,
+        posts: state.posts,
     };
 };
 

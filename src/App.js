@@ -14,7 +14,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route path="/home" component={Template} />
-            <Route path="/posts/:id/:title/:body" exact component={SinglePost} />
+            <Route path="/posts/:id" exact component={SinglePost} />
             <Route path="*" render={() => <Redirect to="/home" />} />
           </Switch>
         </BrowserRouter>

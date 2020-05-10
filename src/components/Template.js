@@ -46,8 +46,7 @@ class Template extends Component {
         <div className="col-lg-4 col-md-6" key={item.id}>
           <div className="card h-100">
             <div className="single-post post-style-1">
-              <Link to={'/posts/' + item.id  + '/' + item.title + '/' + item.body} className="blog-image"
-               onClick={() => this.props.getPostItem(item.id)}>
+              <Link to={'/posts/' + item.id} className="blog-image">
                 <img src="images/500x333.png" alt="Blog" />
               </Link>
 
@@ -58,8 +57,7 @@ class Template extends Component {
               <div className="blog-info">
                 <h4 className="title">
                   <Link
-                    to={'/posts/' + item.id + '/' + item.title + '/' + item.body}
-                    onClick={() => this.props.getPostItem(item.id)}
+                    to={'/posts/' + item.id}
                   >
                     {item.title}
                   </Link>
@@ -115,8 +113,6 @@ class Template extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.heart);
-  // console.log(state.posts);
   return {
     heart: state.heart,
     view: state.view,
@@ -143,15 +139,10 @@ const mapDispatchToProps = (dispatch) => {
         payload: postId,
         type: "GET_POSTID",
       }),
-    updateComments: (postId) =>
+    updateComments: (comments) =>
       dispatch({
-        payload: postId,
+        payload: comments,
         type: "UPDATE_COMMENTS",
-      }),
-    getPostItem: (postId) =>
-      dispatch({
-        payload: postId,
-        type: "POST_ITEM",
       }),
   };
 };

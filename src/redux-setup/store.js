@@ -5,7 +5,6 @@ const initState = {
     heart: -1,
     comment: 0,
     posts: [],
-    postItem: {},
     comments: [],
 };
 
@@ -31,8 +30,7 @@ const reducers = function (state = initState, action) {
                             isVoted = false;
                             heart = -1;
                         }
-
-                        return { ...post, isVoted, heart: post.heart + heart};
+                        return { ...post, isVoted, heart: post.heart + heart };
                     }
 
                     return post;
@@ -40,31 +38,12 @@ const reducers = function (state = initState, action) {
             };
         case "UPDATE_COMMENT":
             return { ...state, comment: action.payload };
-        case "POST_ITEM":
-            return {
-                ...state,
-                posts: state.posts.map((post) => {
-                    if (action.payload !== undefined && post.id === parseInt(action.payload)) {
-                        console.log(post);
-                        return { postItem: post };
-                    }
-
-                    return post;
-                }),
-            };
         case "UPDATE_COMMENTS":
             return {
-                ...state, 
-                posts: state.posts.map((post) => {
-                    if(post.postId === parseInt(action.payload)) {
-                        
-                        return {...post}
-                    }
-                    return post
-                })
+                ...state, comments: action.payload
             };
         default:
-            return state;   
+            return state;
     }
 };
 
