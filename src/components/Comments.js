@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Comments extends Component {
     render() {
@@ -13,17 +14,17 @@ export default class Comments extends Component {
                         <div className="post-info">
 
                             <div className="left-area">
-                                <a className="avatar" href="#">
-                                    <img src="images/800x800.png" alt="Profile Image" /></a>
+                                <Link className="avatar" to="">
+                                    <img src="/images/800x800.png" alt="Profile" /></Link>
                             </div>
 
                             <div className="middle-area">
-                                <a className="name" href="#"><strong>Katy Liu</strong></a>
+                                <Link className="name" to=""><strong>Katy Liu</strong></Link>
                                 <h6 className="date">on Sep 29, 2017 at 9:48 am</h6>
                             </div>
 
                             <div className="right-area">
-                                <h5 className="reply-btn" ><a href="#"><strong>REPLY</strong></a></h5>
+                                <h5 className="reply-btn" ><Link to=""><strong>REPLY</strong></Link></h5>
                             </div>
 
                         </div>
@@ -34,21 +35,21 @@ export default class Comments extends Component {
                     </div>
 
                     <div className="comment">
-                        <h5 className="reply-for">Reply for <a href="#"><strong>Katy Lui</strong></a></h5>
+                        <h5 className="reply-for">Reply for <Link to=""><strong>Katy Lui</strong></Link></h5>
 
                         <div className="post-info">
 
                             <div className="left-area">
-                                <a className="avatar" href="#"><img src="images/800x800.png" alt="Profile Image" /></a>
+                                <Link className="avatar" to=""><img src="/images/800x800.png" alt="Profile" /></Link>
                             </div>
 
                             <div className="middle-area">
-                                <a className="name" href="#"><b>Katy Liu</b></a>
+                                <Link className="name" to=""><b>Katy Liu</b></Link>
                                 <h6 className="date">on Sep 29, 2017 at 9:48 am</h6>
                             </div>
 
                             <div className="right-area">
-                                <h5 className="reply-btn" ><a href="#"><b>REPLY</b></a></h5>
+                                <h5 className="reply-btn" ><Link to=""><b>REPLY</b></Link></h5>
                             </div>
 
                         </div>

@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 class Template extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount = () => {
-    console.log(this.props.posts);
     axios
       .get("https://jsonplaceholder.typicode.com/posts")
       .then(async (res) => {
@@ -17,14 +12,23 @@ class Template extends Component {
           //Init posts info
           const posts = res.data.map((post) => {
             post.heart = Math.floor(Math.random() * (100 - 1 + 1) + 1);
-            post.view = Math.floor(Math.random() * (1000 - 1 + 1) + 1);
+            post.view = 0;
             post.comment = Math.floor(Math.random() * (30 - 1 + 1) + 1);
             post.isVoted = false;
+            post.comments = [];
             return post;
           });
 
           // store post with redux
           this.props.updatePosts(posts);
+        }
+      });
+
+    axios
+      .get("https://jsonplaceholder.typicode.com/comments")
+      .then(async (res) => {
+        if (res) {
+          this.props.updateComments(res.data);
         }
       });
   };
@@ -35,27 +39,27 @@ class Template extends Component {
   };
 
   renderItem = () => {
-    const { heart, comment, view, posts } = this.props;
+    const { posts } = this.props;
+
     return posts.map((item) => {
       return (
         <div className="col-lg-4 col-md-6" key={item.id}>
           <div className="card h-100">
             <div className="single-post post-style-1">
-              <Link to="/posts" className="blog-image">
-                <img src="images/500x333.png" alt="Blog Image" />
+              <Link to={'/posts/' + item.id  + '/' + item.title + '/' + item.body} className="blog-image"
+               onClick={() => this.props.getPostItem(item.id)}>
+                <img src="images/500x333.png" alt="Blog" />
               </Link>
 
               <Link className="avatar" to="">
-                <img src="images/500x500.png" alt="Profile Image" />
+                <img src="images/500x500.png" alt="Profile" />
               </Link>
 
               <div className="blog-info">
                 <h4 className="title">
                   <Link
-                    to={{
-                      pathname: "/posts",
-                      search: "?name=" + item.title,
-                    }}
+                    to={'/posts/' + item.id + '/' + item.title + '/' + item.body}
+                    onClick={() => this.props.getPostItem(item.id)}
                   >
                     {item.title}
                   </Link>
@@ -63,26 +67,26 @@ class Template extends Component {
 
                 <ul className="post-footer">
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      to=""
                       className={item.isVoted === true ? "text-danger" : ""}
                       onClick={(e) => this.clickHeart(e, item.id)}
                     >
                       <i className="ion-heart"></i>
-                      {item.heart}
-                    </a>
+                      {/* {item.heart} */}
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link to="">
                       <i className="ion-chatbubble"></i>
                       {item.comment}
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link to="">
                       <i className="ion-eye"></i>
                       {item.view}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -101,9 +105,9 @@ class Template extends Component {
         </div>
 
         <div className="text-center pb-5">
-          <a className="load-more-btn" href="#">
+          <Link className="load-more-btn" to="">
             <strong>LOAD MORE</strong>
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -111,11 +115,14 @@ class Template extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.heart);
+  // console.log(state.posts);
   return {
     heart: state.heart,
     view: state.view,
     comment: state.comment,
     posts: state.posts,
+    comments: state.comments,
   };
 };
 
@@ -130,6 +137,21 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         payload: posts,
         type: "UPDATE_POSTS",
+      }),
+    getPostId: (postId) =>
+      dispatch({
+        payload: postId,
+        type: "GET_POSTID",
+      }),
+    updateComments: (postId) =>
+      dispatch({
+        payload: postId,
+        type: "UPDATE_COMMENTS",
+      }),
+    getPostItem: (postId) =>
+      dispatch({
+        payload: postId,
+        type: "POST_ITEM",
       }),
   };
 };
