@@ -2,35 +2,44 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Header } from "./common/Header";
+import { Footer } from "./common/Footer";
 
 class Template extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: 6,
+    };
+  }
+
+  loadMore() {
+    this.setState((prev) => {
+      return { visible: prev.visible + 6 };
+    });
+  }
+
   componentDidMount = () => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then(async (res) => {
-        if (res) {
-          //Init posts info
-          const posts = res.data.map((post) => {
-            post.heart = Math.floor(Math.random() * (100 - 1 + 1) + 1);
-            post.view = 0;
-            post.comment = Math.floor(Math.random() * (30 - 1 + 1) + 1);
-            post.isVoted = false;
-            post.comments = [];
-            return post;
-          });
+    if (!this.props.posts || this.props.posts.length === 0) {
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then(async (res) => {
+          if (res) {
+            //Init posts info
+            const posts = res.data.map((post) => {
+              post.heart = 0;
+              post.view = Math.floor(Math.random() * (50 - 1 + 1) + 1);
+              post.comment = Math.floor(Math.random() * (5 - 1 + 1) + 1);
+              post.isVoted = false;
+              post.comments = [];
+              return post;
+            });
 
-          // store post with redux
-          this.props.updatePosts(posts);
-        }
-      });
-
-    axios
-      .get("https://jsonplaceholder.typicode.com/comments")
-      .then(async (res) => {
-        if (res) {
-          this.props.updateComments(res.data);
-        }
-      });
+            // store post with redux
+            this.props.updatePosts(posts);
+          }
+        });
+    }
   };
 
   clickHeart = (e, id) => {
@@ -41,26 +50,28 @@ class Template extends Component {
   renderItem = () => {
     const { posts } = this.props;
 
-    return posts.map((item) => {
+    return posts.slice(0, this.state.visible).map((item) => {
       return (
         <div className="col-lg-4 col-md-6" key={item.id}>
           <div className="card h-100">
             <div className="single-post post-style-1">
-              <Link to={'/posts/' + item.id} className="blog-image">
-                <img src="images/500x333.png" alt="Blog" />
+              <Link to={"/posts/" + item.id} className="blog-image">
+                <img
+                  src="http://via.placeholder.com/500x333?text=500x333"
+                  alt="Blog"
+                />
               </Link>
 
               <Link className="avatar" to="">
-                <img src="images/500x500.png" alt="Profile" />
+                <img
+                  src="http://via.placeholder.com/100x100?text=100x100"
+                  alt="Profile"
+                />
               </Link>
 
               <div className="blog-info">
                 <h4 className="title">
-                  <Link
-                    to={'/posts/' + item.id}
-                  >
-                    {item.title}
-                  </Link>
+                  <Link to={"/posts/" + item.id}>{item.title}</Link>
                 </h4>
 
                 <ul className="post-footer">
@@ -71,7 +82,7 @@ class Template extends Component {
                       onClick={(e) => this.clickHeart(e, item.id)}
                     >
                       <i className="ion-heart"></i>
-                      {/* {item.heart} */}
+                      {item.heart}
                     </Link>
                   </li>
                   <li>
@@ -97,17 +108,25 @@ class Template extends Component {
 
   render() {
     return (
-      <div className="blog-area section pt-5 pb-5">
-        <div className="container">
-          <div className="row">{this.renderItem()}</div>
+      <>
+        <Header />
+        <div className="blog-area section pt-5 pb-5">
+          <div className="container">
+            <div className="row">{this.renderItem()}</div>
+          </div>
+          {this.state.visible < this.props.posts.length && (
+            <div className="text-center pb-5">
+              <Link
+                className="load-more-btn"
+                onClick={this.loadMore.bind(this)}
+              >
+                <strong>LOAD MORE</strong>
+              </Link>
+            </div>
+          )}
         </div>
-
-        <div className="text-center pb-5">
-          <Link className="load-more-btn" to="">
-            <strong>LOAD MORE</strong>
-          </Link>
-        </div>
-      </div>
+        <Footer />
+      </>
     );
   }
 }
