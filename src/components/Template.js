@@ -19,6 +19,10 @@ class Template extends Component {
     });
   }
 
+  randomImage() {
+    const num = Math.floor(Math.random() * (8 - 1 + 1) + 1);
+    return `/images/anh-${num}.jpg`;
+  }
   componentDidMount = () => {
     if (!this.props.posts || this.props.posts.length === 0) {
       axios
@@ -31,6 +35,7 @@ class Template extends Component {
               post.view = Math.floor(Math.random() * (50 - 1 + 1) + 1);
               post.comment = Math.floor(Math.random() * (5 - 1 + 1) + 1);
               post.isVoted = false;
+              post.img = this.randomImage()
               post.comments = [];
               return post;
             });
@@ -57,7 +62,7 @@ class Template extends Component {
             <div className="single-post post-style-1">
               <Link to={"/posts/" + item.id} className="blog-image">
                 <img
-                  src="http://via.placeholder.com/500x333?text=500x333"
+                  src={item.img}
                   alt="Blog"
                 />
               </Link>

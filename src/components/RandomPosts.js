@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export class RandomPosts extends React.Component {
   numberOfPost = 3;
-  componentDidMount = () => {};
+  componentDidMount = () => { };
 
   shuffle = (posts) => {
     const newArray = Object.assign([], posts);
@@ -14,6 +14,13 @@ export class RandomPosts extends React.Component {
 
     return newArray;
   };
+
+  randomImage() {
+    const num = Math.floor(Math.random() * (8 - 1 + 1) + 1);
+    return `/images/anh-${num}.jpg`;
+  }
+
+
   render() {
     const posts = this.props.posts;
     const newPosts = this.shuffle(posts);
@@ -31,7 +38,7 @@ export class RandomPosts extends React.Component {
                       <div className="single-post post-style-1">
                         <Link to={"/posts/" + item.id} className="blog-image">
                           <img
-                            src="http://via.placeholder.com/500x333?text=500x333"
+                            src={item.img}
                             alt="Blog"
                           />
                         </Link>
@@ -78,8 +85,8 @@ export class RandomPosts extends React.Component {
                     </div>
                   </div>
                 ) : (
-                  false
-                );
+                    false
+                  );
               })}
             </div>
             {/* row */}

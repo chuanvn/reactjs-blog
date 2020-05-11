@@ -17,6 +17,11 @@ class SinglePost extends Component {
     };
   }
 
+  randomImage() {
+    const num = Math.floor(Math.random() * (8 - 1 + 1) + 1);
+    return `/images/anh-${num}.jpg`;
+  }
+
   async getPostById() {
     let { match, posts } = this.props;
     if (!this.props.posts || this.props.posts.length === 0) {
@@ -30,6 +35,7 @@ class SinglePost extends Component {
           post.comment = Math.floor(Math.random() * (5 - 1 + 1) + 1);
           post.isVoted = false;
           post.comments = [];
+          post.img = this.randomImage()
           return post;
         });
 
