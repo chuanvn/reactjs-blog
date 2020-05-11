@@ -7,14 +7,13 @@ import store from "./redux-setup/store";
 import { Provider } from "react-redux";
 
 class App extends React.Component {
-
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
             <Route path="/home" component={Template} />
-            <Route path="/posts/:id" exact component={SinglePost} />
+            <Route path="/posts/:id" component={SinglePost} />
             <Route path="*" render={() => <Redirect to="/home" />} />
           </Switch>
         </BrowserRouter>
